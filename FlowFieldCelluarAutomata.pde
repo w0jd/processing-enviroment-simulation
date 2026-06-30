@@ -9,6 +9,7 @@ class FlowFieldCelluarAutomata{
   int [][]fieldCopy;
   float [][]fieldVoronoi;
   PVector []positions;
+  int num;
   int minNumOfNeigbours, maxNumOfNeigbours;
   int riverStart, riverEnd;
     FlowFieldCelluarAutomata(int r, int start, int end, float [][] nosie) {
@@ -28,26 +29,15 @@ class FlowFieldCelluarAutomata{
   
     }
     void init(int num){
+      this.num=num;
        for(int i=0; i<=num;i++){
          int x=int(random(0,cols));
-         //while(x<=this.riverEnd && x>=this.riverStart){
-         //  //print(x);
-         //    x=int(random(0,this.cols));
-         //}
          int  y=int(random(0,this.rows));
          this.field[x][y]=1;
        }
        arrayCopy(this.field,this.fieldCopy);
     }
   void update(){
-     this.minNumOfNeigbours=int(random(3,4));
-     this.maxNumOfNeigbours=int(random(5,7));
-  //      print("\n");
-
-  //   print(minNumOfNeigbours);
-  //      print("\n");
-  //print(maxNumOfNeigbours);
-  //      print("\n");
              int number=0;
             int count =0;
             for (int i = 0; i < this.positions.length; i++) {
@@ -58,44 +48,33 @@ class FlowFieldCelluarAutomata{
                  count = 0;
                  if (field[x][y]==1){
                     this.positions[number].x=x;
-                    this.positions[number].y=y;}
+                    this.positions[number].y=y;
+                    field[x][y]=0;  
+                }
               else{
                   this.positions[number].x=100000;
                   this.positions[number].y=100000;
     }
-    number++;
-    for (int i = -1; i <= 1; i++) {
-      for (int j = -1; j <= 1; j++) {
-        if (i == 0 && j == 0) continue;
-          int col = (x + i + cols) % cols;
-          int row = (y + j + rows) % rows;
-        if (fieldCopy[col][row] == 1) {
-          count++;
-        }
-      }
-      }
-      if((count>=this.minNumOfNeigbours && count<=this.maxNumOfNeigbours)  ){
-                 this.field[x][y]=1;
-           }else{
-                this.field[x][y]=0;  
+    number++;} }
+    for(int i=0; i<=num;i++){
+         int x=int(random(0,this.cols));
+         int  y=int(random(0,this.rows));
+         this.field[x][y]=1;
        }
-       
-      }
-    }
+       arrayCopy(this.field,this.fieldCopy);
               arrayCopy( this.field,this.fieldCopy);
       
       for(int x=0; x<cols ;x++){
             for (int y = 0; y < rows ; y++) {
                 float min=10000;
                 for (int l=0;l<cols*rows;l++){
-                  float ac =abs(positions[l].x-x)+abs(positions[l].y-y);
+                  float ac =pow(pow(positions[l].x-x,2)+pow(positions[l].y-y,2),0.5);
 
                   if (ac<min){ //<>// //<>//
-                 ac+=0.001;
-                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]/ac; //<>//
-                                           print("ac= ");
-                  print(positions[l].x);
-                  print("\n");
+                 ac+=1.0;
+                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*3/ac;
+                 //if (ac==1)this.fieldVoronoi[x][y]=1;
+                               //<>//
                     min=ac;
                   }
                 }
@@ -125,20 +104,26 @@ class FlowFieldCelluarAutomata{
       for (int j = 0; j < this.rows ; j++) {
         float w = width / (this.cols );
         float h = height /( this.rows );
-        int v = this.field[int(i/2)][int(j/2)];
+        int v = this.field[int(i)][int(j)];
         float x = i * w;
         int g;
         float  y = j * h;
-        if (v==1){
-         g= int(map(this.fieldVoronoi[i][j]*2,0,1,90,255));
+        //if (v==1){
+         g= int(map(this.fieldVoronoi[i][j],0,3,100,255));
         strokeWeight(0);
-         fill(50, g,50);
-        square(x,y,w);
-        }else{
-        strokeWeight(0);
-                 g= int(map(this.fieldVoronoi[i][j]*2,0,1,150,255));
+               int  r= int(map(1-this.fieldVoronoi[i][j],0,3,100,255));
 
-        square(x,y,w);}
+         fill(r, g,50);
+        square(x,y,w);
+        //}else{
+        //strokeWeight(0);
+                 //g= int(map(this.fieldVoronoi[i][j],0,3,100,255));
+               //int  r= int(map(1-this.fieldVoronoi[i][j],0,3,100,255));
+
+         //fill(r, g,50);
+
+        //square(x,y,w);
+      //}
         //}else{
               
         //}
