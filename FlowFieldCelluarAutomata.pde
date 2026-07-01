@@ -2,8 +2,8 @@ class FlowFieldCelluarAutomata{
   int resolution;  
   float [][]PerlinNoise;
 
-  int timer=200;
-  int oldTimer=this.timer;
+  int timer=0;
+  int oldTimer=200;
   int rows, cols;
   int [][]field;
   int [][]fieldCopy;
@@ -14,14 +14,10 @@ class FlowFieldCelluarAutomata{
   int riverStart, riverEnd;
     FlowFieldCelluarAutomata(int r, int start, int end, float [][] nosie) {
     this.resolution = r;
-    //{!2} Determine the number of columns and rows.
     this.cols = width / this.resolution;
     this.rows = height / this.resolution;
         this.PerlinNoise=new float[cols][rows];
     arrayCopy(nosie,PerlinNoise);
-    //print(this.PerlinNoise[20][20]);
-    //this.riverStart = start;
-    //this.riverEnd=end;
     this.field = new int[cols][rows];
     this.fieldCopy = new int[cols][rows];
     this.fieldVoronoi = new float[cols ][rows ];
@@ -63,19 +59,17 @@ class FlowFieldCelluarAutomata{
        }
        arrayCopy(this.field,this.fieldCopy);
               arrayCopy( this.field,this.fieldCopy);
+              this.fieldVoronoi = new float[cols ][rows ];
       
       for(int x=0; x<cols ;x++){
             for (int y = 0; y < rows ; y++) {
                 float min=10000;
                 for (int l=0;l<cols*rows;l++){
-                  float ac =pow(pow(positions[l].x-x,2)+pow(positions[l].y-y,2),0.5);
-
-                  if (ac<min){ //<>// //<>//
+                  float ac =pow(pow(abs(positions[l].x-x),2)+pow(abs(positions[l].y-y),2),0.5);
                  ac+=1.0;
-                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*3/ac;
-                 //if (ac==1)this.fieldVoronoi[x][y]=1;
-                               //<>//
-                    min=ac;
+                  if (ac<min){
+                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac; //<>// //<>//
+                    min=ac; //<>//
                   }
                 }
             }
@@ -84,22 +78,15 @@ class FlowFieldCelluarAutomata{
     int lookup(PVector position) {
     int column = constrain(floor(position.x / this.resolution), 0, this.cols - 1);
     int row = constrain(floor(position.y / this.resolution), 0, this.rows - 1);
-    //print(this.fieldCopy[column][row]);
    return this.fieldCopy[column][row];
-    //return this.field[column][row];
   }
   void show(int riverStart,int riverEnd) {
-    //this.riverStart=riverStart;
-    //this.riverEnd=riverEnd;
       if(this.timer>0){
     this.timer--;
-    //print(timer);
-    //print("\n");
     }  else{
     this.update();
     this.timer=this.oldTimer;  
 }
-    //print("1");
     for (int i = 0; i < this.cols ; i++) {
       for (int j = 0; j < this.rows ; j++) {
         float w = width / (this.cols );
@@ -111,23 +98,13 @@ class FlowFieldCelluarAutomata{
         //if (v==1){
          g= int(map(this.fieldVoronoi[i][j],0,3,100,255));
         strokeWeight(0);
-               int  r= int(map(1-this.fieldVoronoi[i][j],0,3,100,255));
+               int  r= int(map(1-this.fieldVoronoi[i][j],0,4,100,255));
 
          fill(r, g,50);
         square(x,y,w);
-        //}else{
-        //strokeWeight(0);
-                 //g= int(map(this.fieldVoronoi[i][j],0,3,100,255));
-               //int  r= int(map(1-this.fieldVoronoi[i][j],0,3,100,255));
 
-         //fill(r, g,50);
-
-        //square(x,y,w);
-      //}
-        //}else{
-              
-        //}
       }
     }
+
   }
 }

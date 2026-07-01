@@ -3,15 +3,19 @@ Prey[] preys = new Prey[10];
 //Food[] foods = new Food[10];
 FlowField flowfield;
 FlowFieldCelluarAutomata cellAutoF;
+celluarAutomataDungeon dungeon;
 float G = 1;
 void setup() {
   size(1240, 660);
+  dungeon=new celluarAutomataDungeon(20);
   flowfield = new FlowField(20);
   cellAutoF = new FlowFieldCelluarAutomata(20,flowfield.riverStart,flowfield.riverEnd,flowfield.PerlinNoise);
   cellAutoF.init(300);
+  dungeon.init(45);
   for (int i = 0; i < 10; i++) {
     hunters[i] = new Body(random(width), random(height), random(2, 3));
       preys[i] = new Prey(random(width), random(height), random(1.5, 2.5));
+      
         //foods[i] = new Food(random(width), random(height), random(1.1, 2.0));
       }
 }
@@ -19,6 +23,7 @@ void draw() {
   background(255);
   cellAutoF.show(flowfield.riverStart,flowfield.riverEnd);
   flowfield.show();
+  dungeon.show();
   for (int i = 0; i <10; i++) {
     for (int j = 0; j < 10; j++) {
     hunters[i].findNearestPrey(preys);
@@ -43,15 +48,7 @@ void draw() {
             //hunters[j].lifeTime=hunters[j].maxLifetime;
 
     }
-    if(hunters[j].lifeTime==0){
-      //print("zero");
-      //hunters[j]=null;
-      //   hunters[j] = new Body(random(width), random(height), random(2, 3));
-    }
-        if(preys[j].lifeTime==0){
-      //preys[j]=null;
-      //   preys[j] = new Prey(random(width), random(height), random(2, 3));
-    }
+    
     if(j!=i){
       hunters[i].separate(hunters[j]);
     }
