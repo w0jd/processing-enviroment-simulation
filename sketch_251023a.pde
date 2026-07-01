@@ -15,7 +15,7 @@ void setup() {
   size(1240, 660);
   dungeon = new celluarAutomataDungeon(20);
   flowfield = new FlowField(20);
-  cellAutoF = new FlowFieldCelluarAutomata(20, flowfield.riverStart, flowfield.riverEnd, flowfield.PerlinNoise);
+  cellAutoF = new FlowFieldCelluarAutomata(20,flowfield.PerlinNoise);
   
   cellAutoF.init(300);
   dungeon.init(45); // Po inicjalizacji lochu mamy już dungeon.emptyCells
@@ -27,8 +27,8 @@ void draw() {
   background(255);
   
   // Rysowanie środowiska
-  cellAutoF.show(flowfield.riverStart, flowfield.riverEnd);
-  flowfield.show();
+  cellAutoF.show();
+  //flowfield.show();
   dungeon.show();
   
   if (!gameOver) {

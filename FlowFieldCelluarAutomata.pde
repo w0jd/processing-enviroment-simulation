@@ -12,7 +12,7 @@ class FlowFieldCelluarAutomata{
   int num;
   int minNumOfNeigbours, maxNumOfNeigbours;
   int riverStart, riverEnd;
-    FlowFieldCelluarAutomata(int r, int start, int end, float [][] nosie) {
+    FlowFieldCelluarAutomata(int r, float [][] nosie) {
     this.resolution = r;
     this.cols = width / this.resolution;
     this.rows = height / this.resolution;
@@ -22,7 +22,6 @@ class FlowFieldCelluarAutomata{
     this.fieldCopy = new int[cols][rows];
     this.fieldVoronoi = new float[cols ][rows ];
     this.positions=new PVector [cols*rows];
-  
     }
     void init(int num){
       this.num=num;
@@ -35,13 +34,12 @@ class FlowFieldCelluarAutomata{
     }
   void update(){
              int number=0;
-            int count =0;
             for (int i = 0; i < this.positions.length; i++) {
             this.positions[i] = new PVector(1000, 1000);
             }
            for (int x = 0; x < cols; x++) {
               for (int y = 0; y < rows; y++) {
-                 count = 0;
+
                  if (field[x][y]==1){
                     this.positions[number].x=x;
                     this.positions[number].y=y;
@@ -69,7 +67,7 @@ class FlowFieldCelluarAutomata{
                   if (ac<min){
                     this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac;
                     min=ac;
-                  }
+                  } //<>//
                 }
             }
       }  
@@ -79,7 +77,7 @@ class FlowFieldCelluarAutomata{
     int row = constrain(floor(position.y / this.resolution), 0, this.rows - 1);
    return this.fieldCopy[column][row];
   }
-  void show(int riverStart,int riverEnd) {
+  void show() {
       if(this.timer>0){
     this.timer--;
     }  else{
@@ -90,20 +88,15 @@ class FlowFieldCelluarAutomata{
       for (int j = 0; j < this.rows ; j++) {
         float w = width / (this.cols );
         float h = height /( this.rows );
-        int v = this.field[int(i)][int(j)];
         float x = i * w;
         int g;
         float  y = j * h;
-        //if (v==1){
          g= int(map(this.fieldVoronoi[i][j],0,3,100,255));
         strokeWeight(0);
                int  r= int(map(1-this.fieldVoronoi[i][j],0,4,100,255));
-
          fill(r, g,50);
         square(x,y,w);
-
       }
     }
-
   }
 }
