@@ -67,7 +67,7 @@ class FlowFieldCelluarAutomata{
                   float ac =pow(pow(abs(positions[l].x-x),2)+pow(abs(positions[l].y-y),2),0.5);
                  ac+=1.0;
                   if (ac<min){
-                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac; //<>//
+                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac;
                     min=ac;
                   }
                 }

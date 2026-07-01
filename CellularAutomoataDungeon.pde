@@ -113,12 +113,12 @@ class celluarAutomataDungeon { //<>//
         int v = this.field[i][j];
         float x = i * this.resolution;
         float y = j * this.resolution;
-
+         int colour=int(map(noise(i*0.01,j*0.01,v),0,1,0,255)); 
         if (v == 1) {
-          fill(210, 210, 50); 
+          fill(colour, colour, 50); 
           square(x, y, this.resolution);
         } else if (v == 2) {
-          fill(210, 210, 100); 
+          fill(colour, colour, 100); 
           square(x, y, this.resolution);
         }
       }

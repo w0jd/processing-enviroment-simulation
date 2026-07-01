@@ -13,7 +13,7 @@ class Body {
     this.acceleration = new PVector(0, 0);
     this.mass=m;
         this.angle = new PVector();
-      this.angleVelocity = new PVector(random(-0.03, 0.03), random(-0.03, 0.03));
+      //this.angleVelocity = new PVector(random(-0.03, 0.03), random(-0.03, 0.03));
     this.amplitude = new PVector(
      random(0.1,mass*0.08),random(0.15,mass*0.09));
       //random(20, height / 2)
@@ -118,11 +118,8 @@ class Body {
     this.applyForce(steer);
   }
   void update(FlowField flow,FlowFieldCelluarAutomata automata) {
-         this.angle.add(this.angleVelocity);
+         //this.angle.add(this.angleVelocity);
     
-    float x = sin(this.angle.x) * this.amplitude.x;
-    float y = sin(this.angle.y) * this.amplitude.y;
-    PVector oscilation;
     if(automata.lookup(this.position)==1){
       this.maxspeed=this.maxspeedF;
     }else if(automata.lookup(this.position)==0) {
@@ -131,7 +128,6 @@ class Body {
       this.maxspeed=this.maxspeedF*10;
     
     }
-    oscilation = new PVector (x,y);
     boundaries(20);
     flow(flow);
     //lifeTime--;

@@ -16,7 +16,7 @@ class Prey {
      this.maxforce= 0.014;
     this.r = sqrt(this.mass) * 2.5;
     this.angle = new PVector();
-      this.angleVelocity = new PVector(random(-0.03, 0.03), random(-0.03, 0.03));
+      //this.angleVelocity = new PVector(random(-0.03, 0.03), random(-0.03, 0.03));
     this.amplitude = new PVector(
      random(0.1,mass*0.2),random(0.15,mass*0.3)  );
     this.maxSpeedNorm=this.maxspeed;
@@ -47,13 +47,7 @@ class Prey {
   
 }
   
-  void findRandomFood(Food[] foods){
-   float minDist=70;
-   int currentLowest=0;
-
-    currentLowest=int(random(0,10));
-   this.trace(foods[currentLowest].position,currentLowest);
- }
+ 
 void trace(PVector target, int currentLowest){
     PVector desired = PVector.sub(target, this.position); // A vector pointing from the location to the target
     float d = desired.mag();
@@ -105,7 +99,7 @@ void trace(PVector target, int currentLowest){
     
     }
     flow(flow);  
-    this.angle.add(this.angleVelocity);
+    //this.angle.add(this.angleVelocity);
      //lifeTime--;
     float x = sin(this.angle.x) * this.amplitude.x;
     float y = sin(this.angle.y) * this.amplitude.y;
@@ -147,33 +141,7 @@ void trace(PVector target, int currentLowest){
       this.applyForce(steer);
     }
    }
-  //void bounce(){
-  //      this.velocity.add(this.acceleration);
-  //      if (position.x < 0) {
-  //  position.x = 0;
-  //  velocity.x *= -0.5;
-  //} else if (position.x > width) {
-  //  position.x = width;
-  //  velocity.x *= -0.5;
-  //}
 
-  //// Odbicie od góry/dołu
-  //if (position.y < 0) {
-  //  position.y = 0;
-  //  velocity.y *= -0.5;
-  //} else if (position.y > height) {
-  //  position.y = height;
-  //  velocity.y *= -0.5;
-  //}
-        //float pos_y=vecx.cross(0,1);
-    //this.velocity.rotate(PI*3);    
-
-
-    //this.position.add(this.velocity);
-    
-    //this.acceleration.set(0, 0);
-  
-  //}
   void show() {
     stroke(0);
     strokeWeight(2);
