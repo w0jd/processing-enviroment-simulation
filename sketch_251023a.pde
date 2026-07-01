@@ -3,6 +3,7 @@ Prey[] preys = new Prey[10];
 //Food[] foods = new Food[10];
 FlowField flowfield;
 FlowFieldCelluarAutomata cellAutoF;
+int resolution=20;
 celluarAutomataDungeon dungeon;
 float G = 1;
 void setup() {
@@ -12,9 +13,19 @@ void setup() {
   cellAutoF = new FlowFieldCelluarAutomata(20,flowfield.riverStart,flowfield.riverEnd,flowfield.PerlinNoise);
   cellAutoF.init(300);
   dungeon.init(45);
+  int index=int(random(dungeon.emptyCellsLen));
   for (int i = 0; i < 10; i++) {
-    hunters[i] = new Body(random(width), random(height), random(2, 3));
-      preys[i] = new Prey(random(width), random(height), random(1.5, 2.5));
+      index=int(random(dungeon.emptyCellsLen));
+     print(dungeon.emptyCells.get(index).x);
+     print("\n");
+      float cols = width / resolution;
+    float rows = height / resolution;
+      float w = width / (cols );
+        float h = height /( rows );
+    hunters[i] = new Body(dungeon.emptyCells.get(index).x*w, dungeon.emptyCells.get(index).y*h, random(2, 3));
+            index=int(random(dungeon.emptyCellsLen));
+
+      preys[i] = new Prey(dungeon.emptyCells.get(index).x*w, dungeon.emptyCells.get(index).y*h, random(1.5, 2.5));
       
         //foods[i] = new Food(random(width), random(height), random(1.1, 2.0));
       }
@@ -52,7 +63,7 @@ void draw() {
     if(j!=i){
       hunters[i].separate(hunters[j]);
     }
-    hunters[i].update(flowfield,cellAutoF);
+    hunters[i].update(flowfield,cellAutoF); //<>//
     hunters[i].show();
     preys[i].update(flowfield,cellAutoF);
     preys[i].show();

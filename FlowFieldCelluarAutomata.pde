@@ -58,7 +58,6 @@ class FlowFieldCelluarAutomata{
          this.field[x][y]=1;
        }
        arrayCopy(this.field,this.fieldCopy);
-              arrayCopy( this.field,this.fieldCopy);
               this.fieldVoronoi = new float[cols ][rows ];
       
       for(int x=0; x<cols ;x++){
@@ -68,8 +67,8 @@ class FlowFieldCelluarAutomata{
                   float ac =pow(pow(abs(positions[l].x-x),2)+pow(abs(positions[l].y-y),2),0.5);
                  ac+=1.0;
                   if (ac<min){
-                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac; //<>// //<>//
-                    min=ac; //<>//
+                    this.fieldVoronoi[x][y]=this.PerlinNoise[int(x)][int(y)]*2/ac; //<>//
+                    min=ac;
                   }
                 }
             }
